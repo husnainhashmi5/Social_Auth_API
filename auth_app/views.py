@@ -8,6 +8,5 @@ class GoogleLogin(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
 
     def post(self, request, *args, **kwargs):
-        print("Google login request received.")
         print("Access token:", request.data.get("access_token"))
         return super().post(request, *args, **kwargs)
