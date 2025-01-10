@@ -18,8 +18,10 @@ CustomUser = [
     path('changepassword/', UserChangePasswordView.as_view(), name='changepassword'),
     path('send-reset-password-email/', SendPasswordResetEmailView.as_view(), name='send-reset-password-email'),
     path('reset-password/<uid>/<token>/', UserPasswordResetView.as_view(), name='reset-password'),
-    path('send-otp/', SendOtpView.as_view(), name='send_otp'),
+    path('send-otp-email/', SendOtpView.as_view(), name='send_otp'),
     path('verify-otp-reset-password/', VerifyOtpAndResetPasswordView.as_view(), name='verify_otp_reset_password'),
+    path('send-otp-phone/', SendPhoneOtpView.as_view(), name='send_otp'),
+    path('verify-otp-phone/', VerifyOTPView.as_view(), name='verify_otp'),
 ]
 
 

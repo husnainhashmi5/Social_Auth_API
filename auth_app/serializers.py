@@ -114,3 +114,16 @@ class UserPasswordResetSerializer(serializers.Serializer):
         except DjangoUnicodeDecodeError as identifier:
             PasswordResetTokenGenerator().check_token(user, token)
             raise serializers.ValidationError('Token is not Valid or Expired')
+
+class SendOTPSerializer(serializers.Serializer):
+    phone_number = serializers.CharField()
+
+    def validate_phone_number(self, value):
+        from phonenumbers import parse, is_valid_number, format_number, PhoneNumberFormat
+        try:
+            phone = parse(value, None)
+            if not is_valid_number(phone):
+                raise serializers.ValidationError("Invalid phone number")
+            return format_number(phone, PhoneNumberFormat.E164)
+        except Exception:
+            raise serializers.ValidationError("Invalid phone number format")

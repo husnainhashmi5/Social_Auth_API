@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager,AbstractBaseUser
+from phonenumber_field.modelfields import PhoneNumberField
 
 #  Custom User Manager
 class UserManager(BaseUserManager):
@@ -46,6 +47,11 @@ class User(AbstractBaseUser):
   OTP_created_at = models.DateTimeField(null=True,blank=True)
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
+  phone_number = PhoneNumberField(unique=True, null=True, blank=True)
+  phone_otp = models.CharField(max_length=6, null=True, blank=True)
+  phone_otp_created_at = models.DateTimeField(null=True, blank=True)
+  access_token = models.CharField(max_length=500, null=True, blank=True)
+  refresh_token = models.CharField(max_length=500, null=True, blank=True)
 
   objects = UserManager()
 
