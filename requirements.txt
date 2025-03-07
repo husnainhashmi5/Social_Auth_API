@@ -63,8 +63,6 @@ phonenumbers==8.13.52
 pillow==10.4.0
 propcache==0.2.1
 psutil==6.1.0
-psycopg==3.2.3
-psycopg2==2.9.10
 py-cpuinfo==9.0.0
 pycparser==2.22
 Pygments==2.19.0
@@ -96,3 +94,4 @@ urllib3==2.3.0
 Whoosh==2.7.4
 yarl==1.18.3
 gunicorn
+
