@@ -1,54 +1,54 @@
-#version: 0.2
-#
-#phases:
-#  pre_build:
-#    commands:
-#      - echo "Logging in to Amazon ECR Public..."
-#      - echo "Logging in to Amazon ECR (Private)..."
-#      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 559050230274.dkr.ecr.us-east-1.amazonaws.com
-#      # - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 851725533006.dkr.ecr.us-east-1.amazonaws.com
-#      # - aws ecr get-login-password --region eu-north-1 | docker login -u AWS --password-stdin 559050230274.dkr.ecr.eu-north-1.amazonaws.com
-#      - IMAGE_TAG=$(date +%Y%m%d%H%M%S)   # Generates a unique timestamp (YYYYMMDDHHMMSS)
-#      - ECR_IMAGE_URI="559050230274.dkr.ecr.us-east-1.amazonaws.com/alan-ecs-terraform-dev-ecr:$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c1-8)"
-#
-#  build:
-#    commands:
-#      - echo "Building Docker Image..."
-#      - docker build -t alan-ecs-terraform-dev-ecr:latest .
-#
-#  post_build:
-#    commands:
-#      - echo "Tagging and Pushing Docker Image..."
-#      - docker tag alan-ecs-terraform-dev-ecr:latest ${ECR_IMAGE_URI}
-#      - docker push ${ECR_IMAGE_URI}
-#      - echo "Generating imagedefinitions.json for ECS..."
-#      - printf '[{"name":"alan-ecs-terraform-dev-ecs-service","imageUri":"%s"}]' ${ECR_IMAGE_URI} > imagedefinitions.json
-#
-#artifacts:
-#  files:
-
 version: 0.2
 
 phases:
   pre_build:
     commands:
+      - echo "Logging in to Amazon ECR Public..."
       - echo "Logging in to Amazon ECR (Private)..."
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 559050230274.dkr.ecr.us-east-1.amazonaws.com
-      - IMAGE_TAG=$(date +%Y%m%d%H%M%S)
+      # - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 851725533006.dkr.ecr.us-east-1.amazonaws.com
+      # - aws ecr get-login-password --region eu-north-1 | docker login -u AWS --password-stdin 559050230274.dkr.ecr.eu-north-1.amazonaws.com
+      - IMAGE_TAG=$(date +%Y%m%d%H%M%S)   # Generates a unique timestamp (YYYYMMDDHHMMSS)
       - ECR_IMAGE_URI="559050230274.dkr.ecr.us-east-1.amazonaws.com/alan-ecs-terraform-dev-ecr:$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c1-8)"
 
   build:
     commands:
       - echo "Building Docker Image..."
-      - docker build -t ${ECR_IMAGE_URI} .
+      - docker build -t alan-ecs-terraform-dev-ecr:latest .
 
   post_build:
     commands:
       - echo "Tagging and Pushing Docker Image..."
+      - docker tag alan-ecs-terraform-dev-ecr:latest ${ECR_IMAGE_URI}
       - docker push ${ECR_IMAGE_URI}
       - echo "Generating imagedefinitions.json for ECS..."
-      - printf '[{"name":"alan-ecs-terraform-dev-python-ecs-deploy","imageUri":"%s"}]' ${ECR_IMAGE_URI} > imagedefinitions.json
+      - printf '[{"name":"alan-ecs-terraform-dev-ecs-service","imageUri":"%s"}]' ${ECR_IMAGE_URI} > imagedefinitions.json
 
 artifacts:
   files:
-    - imagedefinitions.json
+  - imagedefinitions.json
+#version: 0.2
+#
+#phases:
+#  pre_build:
+#    commands:
+#      - echo "Logging in to Amazon ECR (Private)..."
+#      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 559050230274.dkr.ecr.us-east-1.amazonaws.com
+#      - IMAGE_TAG=$(date +%Y%m%d%H%M%S)
+#      - ECR_IMAGE_URI="559050230274.dkr.ecr.us-east-1.amazonaws.com/alan-ecs-terraform-dev-ecr:$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c1-8)"
+#
+#  build:
+#    commands:
+#      - echo "Building Docker Image..."
+#      - docker build -t ${ECR_IMAGE_URI} .
+#
+#  post_build:
+#    commands:
+#      - echo "Tagging and Pushing Docker Image..."
+#      - docker push ${ECR_IMAGE_URI}
+#      - echo "Generating imagedefinitions.json for ECS..."
+#      - printf '[{"name":"alan-ecs-terraform-dev-python-ecs-deploy","imageUri":"%s"}]' ${ECR_IMAGE_URI} > imagedefinitions.json
+#
+#artifacts:
+#  files:
+#
